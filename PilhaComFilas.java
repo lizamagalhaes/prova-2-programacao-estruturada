@@ -1,62 +1,72 @@
-//Questão 3 - Simule uma pilha com filas
-
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class PilhaComFilas {
 
-    private Queue<String> queue1;
-    private Queue<String> queue2;
+  // Atributos
+  private Queue<String> fila1;
+  private Queue<String> fila2;
 
-    public PilhaComFilas() {
-        queue1 = new LinkedList<>();
-        queue2 = new LinkedList<>();
+  // Construtor
+  public PilhaComFilas() {
+    fila1 = new LinkedList<>();
+    fila2 = new LinkedList<>();
+  }
+
+  // Método empilhar
+  public void empilhar(String content) {
+    // Adicionar o elemento na fila 1
+    fila1.add(content);
+  }
+
+  // Método imprimir
+  public void imprimir() {
+    // Imprimir os elementos da fila 1
+    System.out.println("Pilha:");
+    for (String content : fila1) {
+      System.out.println(content);
+    }
+  }
+
+  // Método desempilhar
+  public String desempilhar() {
+    // Transferir os elementos da fila 1 para a fila 2, exceto o último elemento
+    while (fila1.size() > 1) {
+      fila2.add(fila1.remove());
     }
 
-    public void emPilhar(String content) {
-        // Adicionar o elemento na fila 1
-        queue1.add(content);
-    }
+    // Remover e retornar o último elemento da fila 1 (o elemento do topo da pilha)
+    String removedItem = fila1.remove();
 
-    public void imprimir() {
-        // Imprimir os elementos da fila 1
-        System.out.println("Pilha:");
-        for (String content : queue1) {
-            System.out.println(content);
-        }
-    }
+    // Trocar as referências das filas para manter a estrutura correta da pilha
+    Queue<String> temp = fila1;
+    fila1 = fila2;
+    fila2 = temp;
 
-    public String desemPilhar() {
-        // Transferir os elementos da fila 1 para a fila 2, exceto o último elemento
-        while (queue1.size() > 1) {
-            queue2.add(queue1.remove());
-        }
+    return removedItem;
+  }
 
-        // Remover e retornar o último elemento da fila 1 (o elemento do topo da pilha)
-        String removedItem = queue1.remove();
+  // Método principal
+  public static void main(String[] args) {
+    // Cria uma nova pilha
+    PilhaComFilas pilha = new PilhaComFilas();
 
-        // Trocar as referências das filas para manter a estrutura correta da pilha
-        Queue<String> temp = queue1;
-        queue1 = queue2;
-        queue2 = temp;
+    // Adiciona os elementos à pilha (fila1)
+    pilha.empilhar("Elemento 1");
+    pilha.empilhar("Elemento 2");
+    pilha.empilhar("Elemento 3");
 
-        return removedItem;
-    }
+    // Imprime a pilha
+    pilha.imprimir();
 
-    public static void main(String[] args) {
-        PilhaComFilas pilha = new PilhaComFilas();
+    // Remove um elemento da pilha
+    String desempilhado = pilha.desempilhar();
+    System.out.println("Desempilhado: " + desempilhado);
 
-        pilha.emPilhar("Elemento 1");
-        pilha.emPilhar("Elemento 2");
-        pilha.emPilhar("Elemento 3");
+    // Adiciona um novo elemento à pilha
+    pilha.empilhar("Elemento 4");
 
-        pilha.imprimir();
-
-        String desempilhado = pilha.desemPilhar();
-        System.out.println("Desempilhado: " + desempilhado);
-
-        pilha.emPilhar("Elemento 4");
-
-        pilha.imprimir();
-    }
+    // Imprime a pilha novamente
+    pilha.imprimir();
+  }
 }
